@@ -1,6 +1,7 @@
 import java.io.*;
 
-public class Basket {
+public class Basket implements Serializable{
+    private static final long serialVersionUID = 1L;
     String[] products;
     int[] prices;
     int[] count;
@@ -48,17 +49,10 @@ public class Basket {
 
 
 
-    public void saveTxt(File textFile) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(textFile))){
-            for (String prod : products) {
-                bw.write(prod + ";");
-            }
-            bw.newLine();
-            for (int c : count) {
-                bw.write(c + ";");
-            }
-            bw.newLine();
-            bw.write(sumProducts + "");
+    public void saveBin(File binFile, Basket basket) {
+        try (FileOutputStream fos = new FileOutputStream(binFile);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            oos.writeObject(basket);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
