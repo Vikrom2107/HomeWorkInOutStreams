@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
 
         File file = new File("basket.txt");
-        Basket basket = loadFromTxtFile(file);
+        Basket basket = Basket.loadFromTxtFile(file);
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -57,43 +57,5 @@ public class Main {
             }
         }
     }
-    public static Basket loadFromTxtFile(File textFile) {
-        if (textFile.exists()) {
-            try (BufferedReader br = new BufferedReader(new FileReader(textFile))) {
-                Basket basket = new Basket(new String[]{"Хлеб", "Яблоки", "Молоко", "Гречневая крупа"},
-                        new int[]{50, 150, 100, 200});
-                basket.setProducts(br.readLine().split(";"));
-                try {
-                    String[] numbers = br.readLine().split(";");
-                    int [] count = new int[numbers.length];
-                    for (int i = 0; i < numbers.length; i++) {
-                        try {
-                            count[i] = Integer.parseInt(numbers[i]);
-                        } catch (Exception e) {
-                            System.out.println("Не распарсилась строка 2");
-                        }
-                    }
-                    basket.setCount(count);
-                    basket.setSumProducts(Integer.parseInt(br.readLine()));
-                } catch (Exception e) {
-                    System.out.println("Не распарсились строки");
-                }
-                return basket;
 
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-            }
-        } else {
-            try {
-                textFile.createNewFile();
-                Basket basket2 = new Basket(new String[]{"Хлеб", "Яблоки", "Молоко", "Гречневая крупа"},
-                        new int[]{50, 150, 100, 200});
-                return basket2;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return new Basket(new String[]{"Хлеб", "Яблоки", "Молоко", "Гречневая крупа"},
-                new int[]{50, 150, 100, 200});
-    }
 }
