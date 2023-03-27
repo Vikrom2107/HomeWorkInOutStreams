@@ -2,10 +2,10 @@ import java.io.*;
 
 public class Basket implements Serializable{
     private static final long serialVersionUID = 1L;
-    String[] products;
-    int[] prices;
-    int[] count;
-    int sumProducts = 0;
+    private String[] products;
+    private int[] prices;
+    private int[] count;
+    private int sumProducts = 0;
 
     public Basket(String[] products, int [] prices) {
         this.products = products;
@@ -56,6 +56,30 @@ public class Basket implements Serializable{
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+    }
+    public static Basket loadFromBinFile(File binFile) {
+        if (binFile.exists()) {
+            Basket basket = new Basket(new String[]{"Хлеб", "Яблоки", "Молоко", "Гречневая крупа"},
+                    new int[]{50, 150, 100, 200});
+            try (FileInputStream fis = new FileInputStream(binFile);
+                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+                basket= (Basket) ois.readObject();
+                return basket;
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+            try {
+                binFile.createNewFile();
+                Basket basket2 = new Basket(new String[]{"Хлеб", "Яблоки", "Молоко", "Гречневая крупа"},
+                        new int[]{50, 150, 100, 200});
+                return basket2;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return new Basket(new String[]{"Хлеб", "Яблоки", "Молоко", "Гречневая крупа"},
+                new int[]{50, 150, 100, 200});
     }
 }
 

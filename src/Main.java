@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
 
         File file = new File("basket.bin");
-        Basket basket = loadFromBinFile(file);
+        Basket basket = Basket.loadFromBinFile(file);
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -55,28 +55,5 @@ public class Main {
             }
         }
     }
-    public static Basket loadFromBinFile(File binFile) {
-        if (binFile.exists()) {
-            Basket basket = new Basket(new String[]{"Хлеб", "Яблоки", "Молоко", "Гречневая крупа"},
-                    new int[]{50, 150, 100, 200});
-            try (FileInputStream fis = new FileInputStream(binFile);
-                 ObjectInputStream ois = new ObjectInputStream(fis)) {
-                basket= (Basket) ois.readObject();
-                return basket;
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-            }
-        } else {
-            try {
-                binFile.createNewFile();
-                Basket basket2 = new Basket(new String[]{"Хлеб", "Яблоки", "Молоко", "Гречневая крупа"},
-                        new int[]{50, 150, 100, 200});
-                return basket2;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return new Basket(new String[]{"Хлеб", "Яблоки", "Молоко", "Гречневая крупа"},
-                new int[]{50, 150, 100, 200});
-    }
+
 }
